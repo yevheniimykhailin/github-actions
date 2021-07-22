@@ -25,10 +25,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: say hello
-      if: contains(github.event.comment.body, '/support')
+      if: contains(github.event.comment.body, 'support')
       run: |
         echo "Comment on PR: ${{ github.event.comment.body }}"
-
+    - name: get pullrequest url
+      run: |
+        echo ${{ github.event.issue.pull_request.url }}
   # This workflow contains a single job called "build"
 #   build:
 #     # The type of runner that the job will run on
