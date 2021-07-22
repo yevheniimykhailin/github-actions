@@ -23,8 +23,16 @@ jobs:
     steps:
     - name: Support
       if: contains(github.event.comment.body, '/support')   # check the comment if it contains the keywords
+      env:
+        URL: ${{ github.event.issue.comments_url }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        echo "PR: ${{ github.event.issue.pull_request.url }}"
+        curl \
+          -X POST \
+          $URL \
+          -H "Content-Type: application/json" \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          --data '{ "body": "Thanks for Reporting" }'
     - name: test
       if: contains(github.event.comment.body, '/test')  # check the comment if it contains the keywords
       run: |
